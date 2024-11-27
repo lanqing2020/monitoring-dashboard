@@ -8,10 +8,10 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .content {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 57px);
   border-bottom: 1px solid #edf1f2;
 }
 </style>

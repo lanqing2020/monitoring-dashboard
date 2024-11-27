@@ -15,7 +15,7 @@ import CompSidebar from "@/components/CompSidebar.vue";
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .container {
   width: 1495px;
   height: calc(100vh - 100px);

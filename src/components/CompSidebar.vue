@@ -20,30 +20,30 @@ const menuDownItems = reactive([
 
 <template>
   <div class="sidebar flex-layout flex-direction-column">
-    <div class="logo-wrap">
-      <img alt="logo" class="logo" src="" width="28" height="28" />
+    <div class="logo-wrap flex-layout">
+      <img alt="logo" class="logo" src="../assets/logo.png" width="28" height="28" />
       <span class="text">FinCorp</span>
     </div>
-    <div class="menu-wrap">
+    <div class="menu-wrap flex-layout flex-direction-column">
       <div class="menu menu-up">
         <ul>
-          <li v-for="(item, index) in menuUpItems" :key="index" :class="item.active ? 'active' : ''">
-            <div class="border1 width100per height1" />
-            <div class="border2 width100per height1" />
+          <li v-for="(item, index) in menuUpItems" :key="index" :class="item.active ? 'active flex-layout' : 'flex-layout'">
             <div class="item-main flex-layout">
-              <img class="menu-icon" :src="item.icon" :alt="item.icon" width="22" height="22" />
+              <div class="img-wrap flex-layout">
+                <img class="menu-icon" :src="item.icon" :alt="item.icon" width="22" height="22" />
+              </div>
               <span>{{ item.name }}</span>
             </div>
-            <div class="border2 width100per height1" />
-            <div class="border1 width100per height1" />
           </li>
         </ul>
       </div>
       <div class="menu menu-down">
         <ul>
           <li v-for="(item, index) in menuDownItems" :key="index">
-            <img class="menu-icon" :src="item.icon" :alt="item.icon" width="22" height="22" />
-            <span>{{ item.name }}</span>
+            <div class="item-main flex-layout">
+              <img class="menu-icon" :src="item.icon" :alt="item.icon" width="22" height="22" />
+              <span>{{ item.name }}</span>
+            </div>
           </li>
         </ul>
       </div>
@@ -60,7 +60,7 @@ const menuDownItems = reactive([
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .sidebar {
   width: 180px;
   height: 100%;
@@ -71,53 +71,95 @@ const menuDownItems = reactive([
   border-left: 1px solid #e1eafb;
   .logo-wrap {
     width: 100%;
+    padding: 0 15px;
     height: 55px;
+    align-items: center;
+    justify-content: flex-start;
+    .logo {
+      width: 28px;
+      height: 28px;
+      margin-right: 10px;
+    }
     .text {
-      font-size: 16px;
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
     }
   }
   .menu-wrap {
     flex: 1;
+    padding: 5px 0;
     width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
     .menu {
+      width: 100%;
       ul {
         li {
           width: 100%;
           height: 48px;
           cursor: pointer;
+          align-items: center;
           .item-main {
             width: 95%;
             height: 44px;
             align-items: center;
             justify-content: flex-start;
             padding: 0 15px;
-            img {
+            border-top: 1px solid transparent;
+            border-bottom: 1px solid transparent;
+            border-right: 1px solid transparent;
+            position: relative;
+            .img-wrap {
+              width: 28px;
+              height: 28px;
               margin-right: 10px;
+              align-items: center;
+              justify-content: center;
+              .menu-icon {
+                width: 22px;
+                height: 22px;
+              }
             }
             span {
               color: #9497aa;
             }
-          }
-          .border1 {
-            background: transparent;
-          }
-          .border2 {
-            background: transparent;
+            &::before {
+              position: absolute;
+              content: "";
+              width: 97%;
+              height: 1px;
+              background: transparent;
+              top: -2px;
+              left: 0;
+            }
+            &::after {
+              position: absolute;
+              content: "";
+              width: 97%;
+              height: 1px;
+              background: transparent;
+              bottom: -2px;
+              left: 0;
+            }
           }
         }
         li.active {
           .item-main {
             background: #0337a4;
             border-radius: 0 6px 6px 0;
+            border-top-color: #04125d;
+            border-bottom-color: #012885;
+            border-right-color: #0638ab;
             span {
               color: white;
             }
-          }
-          .border1 {
-            background: #050543;
-          }
-          .border2 {
-            background: #04125d;
+            &::before {
+              background: #02022a;
+            }
+            &::after {
+              background: #02022a;
+            }
           }
         }
       }
