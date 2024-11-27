@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CompHeader from './components/CompHeader.vue'
 import {reactive} from "vue";
-import CompContent from "@/components/CompContent.vue";
 import CompSidebar from "@/components/CompSidebar.vue";
+import Content from "@/views/Content.vue";
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import CompSidebar from "@/components/CompSidebar.vue";
     <CompSidebar />
     <main>
       <CompHeader />
-      <CompContent />
+      <Content />
     </main>
   </div>
 </template>
