@@ -1,0 +1,53 @@
+@import './base.css';
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("@/assets/page-bg.gif");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-attachment: fixed;
+  padding: 50px 0;
+}
+
+// flex
+.flex-layout {
+  display: flex;
+}
+.flex-direction-row {
+  flex-direction: row;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
+
+// 各种border部分
+.width100per{
+  width: 100%;
+}
+.height100per {
+  height: 100%;
+}
+.height1 {
+  height: 1px;
+}
+
+// 媒体查询部分
+@media (hover: hover) {
+  //a:hover {
+  //  background-color: hsla(160, 100%, 37%, 0.2);
+  //}
+}
+
+@media (min-width: 1024px) {
+  //body {
+  //  display: flex;
+  //  place-items: center;
+  //}
+  //
+  //#app {
+  //  display: grid;
+  //  grid-template-columns: 1fr 1fr;
+  //  padding: 0 2rem;
+  //}
+}
