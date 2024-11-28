@@ -3,87 +3,96 @@ import * as echarts from "echarts";
 import {onMounted, ref} from "vue";
 
 const echartsTemperatureRef = ref(null);
-onMounted(() => {
+const initTemperatureEcharts = () => {
   const temperatureCharts = echarts.init(echartsTemperatureRef.value);
-  const data = [["2000-06-05", 116], ["2000-06-06", 129], ["2000-06-07", 135], ["2000-06-08", 86], ["2000-06-09", 73], ["2000-06-10", 85], ["2000-06-11", 73], ["2000-06-12", 68], ["2000-06-13", 92], ["2000-06-14", 130], ["2000-06-15", 245], ["2000-06-16", 139], ["2000-06-17", 115], ["2000-06-18", 111], ["2000-06-19", 309], ["2000-06-20", 206], ["2000-06-21", 137], ["2000-06-22", 128], ["2000-06-23", 85], ["2000-06-24", 94], ["2000-06-25", 71], ["2000-06-26", 106], ["2000-06-27", 84], ["2000-06-28", 93], ["2000-06-29", 85], ["2000-06-30", 73], ["2000-07-01", 83], ["2000-07-02", 125], ["2000-07-03", 107], ["2000-07-04", 82], ["2000-07-05", 44], ["2000-07-06", 72], ["2000-07-07", 106], ["2000-07-08", 107], ["2000-07-09", 66], ["2000-07-10", 91], ["2000-07-11", 92], ["2000-07-12", 113], ["2000-07-13", 107], ["2000-07-14", 131], ["2000-07-15", 111], ["2000-07-16", 64], ["2000-07-17", 69], ["2000-07-18", 88], ["2000-07-19", 77], ["2000-07-20", 83], ["2000-07-21", 111], ["2000-07-22", 57], ["2000-07-23", 55], ["2000-07-24", 60]];
-  const dateList = data.map(function (item) {
-    return item[0];
-  });
-  const valueList = data.map(function (item) {
-    return item[1];
+  const hours = [
+    '5min', '10min', '15min', '20min', '25min', '30min', '35min', '40min', '45min', '50min', '55min', '60min'
+  ];
+  const temperatures = ["0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "65", "60", "65", "70", "75", "80"];
+  const data = [
+    [0, 3, 15],
+    [1, 3.6, 18],
+    [2, 3.2, 16],
+    [3, 4, 20],
+    [4, 6, 30],
+    [5, 5, 25],
+    [6, 6.4, 32],
+    [7, 5.8, 29],
+    [8, 7.2, 36],
+    [9, 8.4, 42],
+    [10, 9.4, 47],
+    [11, 8.4, 42],
+  ].map(function (item) {
+    return [item[0], item[1], item[2]];
   });
   const option = {
-    // Make gradient line here
-    visualMap: [
-      {
-        show: false,
-        type: 'continuous',
-        seriesIndex: 0,
-        min: 0,
-        max: 400
+    title: {
+      show: true,
+      text: "设备温度折线图",
+      textStyle: {
+        fontSize: 16,
+        color: "#242633"
       },
-      {
-        show: false,
-        type: 'continuous',
-        seriesIndex: 1,
-        dimension: 0,
-        min: 0,
-        max: dateList.length - 1
-      }
-    ],
-    title: [
-      {
-        left: 'center',
-        text: 'Gradient along the y axis'
-      },
-      {
-        top: '55%',
-        left: 'center',
-        text: 'Gradient along the x axis'
-      }
-    ],
-    tooltip: {
-      trigger: 'axis'
+      textAlign: "center",
+      textVerticalAlign: "center",
+      left: "45%",
+      top: "20px"
     },
-    xAxis: [
-      {
-        data: dateList
+    // legend未显示
+    legend: {
+      data: ["最近一小时"],
+      left: "right"
+    },
+    tooltip: {
+      position: 'top',
+      formatter: function (params: any) {
+        return ( hours[params.value[0]] + "点的温度是：" + params.value[2] + "°C" );
+      }
+    },
+    grid: {
+      left: 2,
+      bottom: 10,
+      right: 10,
+      containLabel: true
+    },
+    xAxis: {
+      name: "时间",
+      type: 'category',
+      boundaryGap: false,
+      splitLine: {
+        show: true
       },
-      {
-        data: dateList,
-        gridIndex: 1
-      }
-    ],
-    yAxis: [
-      {},
-      {
-        gridIndex: 1
-      }
-    ],
-    grid: [
-      {
-        bottom: '60%'
+      axisLine: {
+        show: false
       },
-      {
-        top: '60%'
+      data: hours
+    },
+    yAxis: {
+      name: "温度",
+      type: 'category',
+      data: temperatures,
+      axisLine: {
+        show: false
       }
-    ],
+    },
     series: [
       {
-        type: 'line',
-        showSymbol: false,
-        data: valueList
-      },
-      {
-        type: 'line',
-        showSymbol: false,
-        data: valueList,
-        xAxisIndex: 1,
-        yAxisIndex: 1
+        name: "最近一小时",
+        type: 'line',  // github是 scatter：https://echarts.apache.org/examples/zh/editor.html?c=scatter-punchCard
+        symbolSize: function (val: any) {
+          return val[1] * 1.5;
+        },
+        data: data,
+        animationDelay: function (idx: any) {
+          return idx * 100;
+        }
       }
     ]
   };
   temperatureCharts.setOption(option);
+}
+onMounted(() => {
+  initTemperatureEcharts();
 })
 
 </script>
@@ -98,15 +107,21 @@ onMounted(() => {
   <section class="temperature sections">
     <h2 class="title">设备温度</h2>
     <div class="body">
-      <div class="echarts-wrap" ref="echartsTemperatureRef" style="width: 600px; height: 400px;">
-
+      <div class="echarts-wrap echarts-temperature">
+        <div class="canvas-wrap" ref="echartsTemperatureRef" style="width: 560px; height: 373px;" />
       </div>
     </div>
   </section>
-  <section class="temperature sections">
+  <section class="rotation sections">
     <h2 class="title">转速</h2>
     <div class="body">
-      <div class="text">echarts</div>
+      <div class="text">4000 转/分钟</div>
+    </div>
+  </section>
+  <section class="daily-output sections">
+    <h2 class="title">日产量</h2>
+    <div class="body">
+      <div class="text">1200 件/天</div>
     </div>
   </section>
 </template>
@@ -119,8 +134,19 @@ onMounted(() => {
       color: #242633;
     }
     .body {
-      .text {
-        font-size: 14px;
+      .echarts-wrap {
+       background: white;
+        border-radius: 10px;
+        border: 1px solid #f9f9fb;
+        box-shadow: 0 0 15px rgba(17, 4, 69, 0.01);
+      }
+      .echarts-temperature {
+        width: 600px;
+        height: 400px;
+        .canvas-wrap {
+          margin-left: 20px;
+          margin-top: 15px;
+        }
       }
     }
   }
